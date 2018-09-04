@@ -36,3 +36,9 @@ class Lis3dh(object):
             return self._register[reg_name]
         else:
             return 0xFF
+
+def main():
+    print('Hello, world!')
+
+if __name__ == '__main__':
+    main()
