@@ -129,4 +129,5 @@ pyvenv.cfg
 .venv
 pip-selfcheck.json
 
-
+# Visual Studio Code
+.vscode/*
