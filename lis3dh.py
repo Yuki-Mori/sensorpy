@@ -24,8 +24,14 @@ class Lis3dh(object):
             self._register['CTRL_REG1'],
             [0x7f])
 
+    def read(self, reg_name):
+        return self._bus.read_byte_data(
+            self._addr,
+            self._register[reg_name]
+        )
+
     def is_connected(self):
-        res = self._bus.read_byte_data(self._addr, self._register['WHO_AM_I'])
+        res = self.read('WHO_AM_I')
         if res == 0x33:
             return True
         else:
@@ -36,6 +42,30 @@ class Lis3dh(object):
             return self._register[reg_name]
         else:
             return 0xFF
+
+    def get_acceleration(self):
+        l = self.read('X_L')
+        h = self.read('X_H')
+        x = (h << 8 | l) >> 4
+        x = self.byte2int(x) / 1024.0 * 980.0 - self._default_value['x']
+
+        l = self.read('Y_L')
+        h = self.read('Y_H')
+        y = (h << 8 | l) >> 4
+        y = self.byte2int(y) / 1024.0 * 980.0 - self._default_value['y']
+
+        l = self.read('Z_L')
+        h = self.read('Z_H')
+        z = (h << 8 | l) >> 4
+        z = self.byte2int(z) / 1024.0 * 980.0 - self._default_value['z']
+
+        return (x, y, z)
+    
+    def calibration(self):
+        pass
+    
+    def byte2int(self, value):
+        return -(value & 0b100000000000) | (value & 0b011111111111)
 
 def main():
     print('Hello, world!')
