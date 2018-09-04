@@ -1,5 +1,8 @@
 #! /usr/bin/env python3
 
+import numpy as np
+from time import sleep
+
 class RegisterNameError(Exception):
     def __init__(self, reg_name):
         self._name = reg_name
@@ -69,11 +72,18 @@ class Lis3dh(object):
         z = (h << 8 | l) >> 4
         z = self.byte2int(z) / 1024.0 * 980.0 - self._default_value['z']
 
-        return (x, y, z)
+        return np.array([x, y, z])
     
     def calibration(self):
-        pass
-    
+        data = np.array([0.0, 0.0, 0.0])
+        for i in range(1000):
+            data += self.get_acceleration()
+            sleep(0.001)
+        data = data / 1000
+        self._default_value['x'] = data[0]
+        self._default_value['y'] = data[1] 
+        self._default_value['z'] = data[2]
+
     def byte2int(self, value):
         return -(value & 0b100000000000) | (value & 0b011111111111)
 
