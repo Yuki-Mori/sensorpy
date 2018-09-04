@@ -1,5 +1,13 @@
 #! /usr/bin/env python3
 
+class RegisterNameError(Exception):
+    def __init__(self, reg_name):
+        self._name = reg_name
+        self._message = 'No such register name: {0}'.format(self._name)
+
+    def __str__(self):
+        return self._message
+
 class Lis3dh(object):
     def __init__(self, bus, addr=0x18):
         self._bus = bus
@@ -25,6 +33,8 @@ class Lis3dh(object):
             [0x7f])
 
     def read(self, reg_name):
+        if reg_name not in self._register:
+            raise RegisterNameError(reg_name)
         return self._bus.read_byte_data(
             self._addr,
             self._register[reg_name]
@@ -41,7 +51,7 @@ class Lis3dh(object):
         if reg_name in self._register:
             return self._register[reg_name]
         else:
-            return 0xFF
+            raise RegisterNameError(reg_name)
 
     def get_acceleration(self):
         l = self.read('X_L')
@@ -69,6 +79,10 @@ class Lis3dh(object):
 
 def main():
     print('Hello, world!')
+    try:
+        raise RegisterNameError('WHO_AM_I')
+    finally:
+        print('Hello, world!')
 
 if __name__ == '__main__':
     main()
