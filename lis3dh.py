@@ -14,6 +14,11 @@ class Lis3dh(object):
             'Z_H' : 0x2d,
             'CTRL_REG1' : 0x20
         }
+        self._default_value = {
+            'x' : 0.0,
+            'y' : 0.0,
+            'z' : 0.0
+        }
         self._bus.write_i2c_block_data(
             self._addr,
             self._register['CTRL_REG1'],
