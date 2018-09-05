@@ -95,12 +95,23 @@ class Lis3dh(object):
         #return -(value & 0b100000000000) | (value & 0b011111111111)
         return -(value & 0b10000000) | (value & 0b01111111)
 
-def main():
+def old_main():
     print('Hello, world!')
     try:
         raise RegisterNameError('WHO_AM_I')
     finally:
         print('Hello, world!')
 
+def main():
+    from smbus2 import SMBus
+    bus = SMBus(1)
+    sen = Lis3dh(bus)
+    try:
+        while True:
+            a = sen.get_acceleration()
+            print(a)
+            sleep(1)
+    except:
+        pass
 if __name__ == '__main__':
     main()
