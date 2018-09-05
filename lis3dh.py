@@ -59,17 +59,20 @@ class Lis3dh(object):
     def get_acceleration(self):
         l = self.read('X_L')
         h = self.read('X_H')
-        x = (h << 8 | l) >> 4
+        #x = (h << 8 | l) >> 4
+        x = (l << 8 | h)
         x = self.byte2int(x) / 1024.0 * 980.0 - self._default_value['x']
 
         l = self.read('Y_L')
         h = self.read('Y_H')
-        y = (h << 8 | l) >> 4
+        #y = (h << 8 | l) >> 4
+        y = (l << 8 | h)
         y = self.byte2int(y) / 1024.0 * 980.0 - self._default_value['y']
 
         l = self.read('Z_L')
         h = self.read('Z_H')
-        z = (h << 8 | l) >> 4
+        #z = (h << 8 | l) >> 4
+        z = (l << 8 | l)
         z = self.byte2int(z) / 1024.0 * 980.0 - self._default_value['z']
 
         return (x, y,z)
@@ -89,7 +92,8 @@ class Lis3dh(object):
         self._default_value['z'] = data[2]
 
     def byte2int(self, value):
-        return -(value & 0b100000000000) | (value & 0b011111111111)
+        #return -(value & 0b100000000000) | (value & 0b011111111111)
+        return -(value & 0b10000000) | (value & 0b01111111)
 
 def main():
     print('Hello, world!')
