@@ -72,10 +72,10 @@ class Lis3dh(object):
         l = self.read('Z_L')
         h = self.read('Z_H')
         #z = (h << 8 | l) >> 4
-        z = (l << 8 | l)
+        z = (l << 8 | h)
         z = self.byte2int(z) / 1024.0 * 980.0 - self._default_value['z']
 
-        return (x, y,z)
+        return (x, y, z)
     
     def calibration(self):
         data = [0.0, 0.0, 0.0]
