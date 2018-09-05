@@ -11,7 +11,7 @@ def main():
     bus = SMBus(1)
     sensor = Lis3dh(bus)
     sensor.calibration()
-    filename = datetime.now().strftime('logdata/%Y%m%d_%H:%M:%S.csv') 
+    filename = datetime.now().strftime('logdata/%Y%m%d_%H:%M:%S.csv')
     print(filename)
     f = open(filename, 'w')
     writer = csv.writer(f, lineterminator='\n')
@@ -22,7 +22,6 @@ def main():
     finally:
         f.close()
 
-    
 def run(sensor, file):
     count = 0
     start = time()
