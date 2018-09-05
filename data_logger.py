@@ -26,7 +26,7 @@ def run(sensor, file):
     count = 0
     start = time()
     while True:
-        datalist = sensor.get_acceleration()
+        datalist = list(sensor.get_acceleration())
         now = time()
         datalist.append(now - start)
         file.writerow(datalist)
