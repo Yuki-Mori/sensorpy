@@ -1,0 +1,16 @@
+certifi==2018.4.16
+chardet==3.0.4
+colorama==0.3.2
+html5lib==0.999
+idna==2.7
+requests==2.19.1
+RPi.GPIO==0.6.3
+RTIMULib==7.2.1
+six==1.11.0
+slackbot==0.5.3
+slacker==0.9.65
+smbus2==0.2.1
+urllib3==1.23
+virtualenv==16.0.0
+websocket-client==0.44.0
+wiringpi==2.46.0
