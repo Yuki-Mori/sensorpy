@@ -40,7 +40,7 @@ class Lis3dh(object):
             self._addr,
             self._register['CTRL_REG3'],
             [0b00011000])
-        self._weight = 1 # +-2G: 1, +-4G: 2, +-8G: 4, +-16G: 8
+        self._weight = 2 # +-2G: 1, +-4G: 2, +-8G: 4, +-16G: 8
 
     def read(self, reg_name):
         if reg_name not in self._register:
