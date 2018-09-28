@@ -10,7 +10,7 @@ import csv
 def main():
     bus = SMBus(1)
     sensor = Lis3dh(bus)
-    sensor.calibration()
+    #sensor.calibration()
     filename = datetime.now().strftime('logdata/%Y%m%d_%H:%M:%S.csv')
     print(filename)
     f = open(filename, 'w')
