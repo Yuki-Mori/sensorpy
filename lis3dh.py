@@ -35,11 +35,12 @@ class Lis3dh(object):
             self._addr,
             self._register['CTRL_REG1'],
             #[0x7f])
-            [0x77])
+            [0b01110111])# 0x77
         self._bus.write_i2c_block_data(
             self._addr,
             self._register['CTRL_REG3'],
-            [0b00001000])
+            [0b00011000])
+        self._weight = 1 # +-2G: 1, +-4G: 2, +-8G: 4, +-16G: 8
 
     def read(self, reg_name):
         if reg_name not in self._register:
@@ -67,21 +68,21 @@ class Lis3dh(object):
         h = self.read('X_H')
         x = (h << 8 | l) >> 4
         #x = (l << 8 | h)
-        x = self.byte2int(x) / 1024.0
+        x = self.byte2int(x) * self._weight / 1024.0
         #x = self.byte2int(x) / 1024.0 * 980.0 - self._default_value['x']
 
         l = self.read('Y_L')
         h = self.read('Y_H')
         y = (h << 8 | l) >> 4
         #y = (l << 8 | h)
-        y = self.byte2int(y) / 1024.0
+        y = self.byte2int(y) * self._weight / 1024.0
         #y = self.byte2int(y) / 1024.0 * 980.0 - self._default_value['y']
 
         l = self.read('Z_L')
         h = self.read('Z_H')
         z = (h << 8 | l) >> 4
         #z = (l << 8 | h)
-        z = self.byte2int(z) / 1024.0
+        z = self.byte2int(z) * self._weight / 1024.0
         #z = self.byte2int(z) / 1024.0 * 980.0 - self._default_value['z']
 
         return (x, y, z)
